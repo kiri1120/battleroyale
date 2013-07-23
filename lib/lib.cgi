@@ -1,19 +1,6 @@
 # ÈÆÍÑ¥µ¥Ö¥ë¡¼¥Á¥ó½¸2
 
 #==================#
-# ¢£ ¥Û¥¹¥ÈÌ¾¼èÆÀ  #
-#==================#
-sub GetHostName {
-    my($ip_address) = @_;
-    my(@addr) = split(/\./, $ip_address);
-    my($packed_addr) = pack("C4", $addr[0], $addr[1], $addr[2], $addr[3]);
-    my($name, $aliases, $addrtype, $length, @addrs);
-    ($name, $aliases, $addrtype, $length, @addrs) = gethostbyaddr($packed_addr, 2);
-    return $name;
-}
-
-
-#==================#
 # ¢£ ¥Ø¥Ã¥À¡¼Éô    #
 #==================#
 sub HEADER {
@@ -21,10 +8,38 @@ print "Content-type: text/html\n\n";
 print <<"_HERE_";
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=x-euc-jp">
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=euc-jp">
 <TITLE>$game</TITLE>
+<SCRIPT language="JavaScript">
+<!--
+    function sl(x) {
+        document.f1.Command[x].checked = true;
+    }
+    function dbk(){
+        window.alert("¥À¥Ö¥ë¥¯¥ê¥Ã¥¯¤Ï¶Ø»ß¤Ç¤¹¡£");
+    }
+//-->
+</SCRIPT>
+<STYLE type="text/css">
+<!--
+BODY {
+    FONT-SIZE   : 9pt;
+    font-family : "MS UI Gothic";
+}
+TH {
+    FONT-SIZE:      9pt;
+    BACKGROUND:     #005; 
+    BORDER-RIGHT:   #336 1px solid; 
+    BORDER-TOP:     #99c 1px solid; 
+    BORDER-LEFT:    #99c 1px solid; 
+    BORDER-BOTTOM:  #336 1px solid; 
+}
+TD      { FONT-SIZE: 9pt; }
+A:hover { COLOR: #ffff99 }
+-->
+</STYLE>
 </HEAD>
-<BODY bgcolor="#000000" text="#ffffff" link="#ff0000" vlink="#ff0000" style='font-size : 13px;font-family : "MS UI Gothic";font-weight : normal;font-style : normal;font-variant : normal;'>
+<BODY bgcolor="#000000" text="#ffffff" link="#ff0000" vlink="#ff0000">
 <CENTER>
 _HERE_
 }
@@ -35,7 +50,7 @@ sub FOOTER {
 print <<"_HERE_";
 </CENTER>
 <HR>
-<DIV align="right"><B><A href="http://www.happy-ice.com/battle/">BATTLE ROYALE $ver</A></B></DIV>
+<DIV align="right"><B><A href="http://www.happy-ice.com/battle/">BATTLE ROYALE V01.19</A></B></DIV>
 </BODY>
 </HTML>
 _HERE_
@@ -44,7 +59,7 @@ _HERE_
 #==================#
 # ¢£ ¥¨¥é¡¼½èÍý    #
 #==================#
-sub ERROR{#¢£¥¨¥é¡¼²èÌÌ
+sub ERROR{
 if ($lockflag) { &UNLOCK; }
 
 $errmes = @_[0] ;
@@ -68,34 +83,33 @@ sub LOGSAVE {
     local($newlog) = "" ;
 
     if ($work eq "NEWENT") { #¿·µ¬ÅÐÏ¿
-        $newlog = "$now,$f_name2,$l_name2,$sex2,$cl,$no,,,,,$host2,ENTRY,$host,\n" ;
+        $newlog = "$now,$f_name2,$l_name2,$sex2,$cl,$no,,,,,$host2,ENTRY,$host,$os,,\n" ;
     } elsif ($work eq "DEATH" ){ #¼«Ê¬»àË´¡ÊÍ×°ø¡§æ«¡¢ÂÎÎÏÀÚ¤ì¡Ë
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH,$dmes,\n" ;
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH,$dmes,,,\n" ;
         $death = "¿ê¼å»à";$msg=$dmes;
     } elsif ($work eq "DEATH1" ){ #¼«Ê¬»àË´¡ÊÍ×°ø¡§ÆÇ»¦¡Ë
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH1,$dmes,\n" ;
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH1,$dmes,,,\n" ;
         $death = "ÆÇÊªÀÝ¼è";$msg=$dmes;
     } elsif ($work eq "DEATH2" ){ #¼«Ê¬»àË´¡ÊÍ×°ø¡§ÇÔ»à¡Ë
-        local($w_name,$w_kind) = split(/<>/, $w_wep);
-        if ($w_kind =~ /N/) {           #»Â·Ï
+        if ($w_kind2 =~ /N/) {           #»Â·Ï
             $d2 = "»Â»¦" ;
-        } elsif (($w_kind =~ /A/) && ($w_wtai > 0)) {   #Ìð·Ï
+        } elsif (($w_kind2 =~ /A/) && ($w_wtai > 0)) {   #Ìð·Ï
             $d2 = "¼Í»¦" ;
-        } elsif (($w_kind =~ /G/) && ($w_wtai > 0)) {   #½Æ·Ï
+        } elsif (($w_kind2 =~ /G/) && ($w_wtai > 0)) {   #½Æ·Ï
             $d2 = "½Æ»¦" ;
-        } elsif ($w_kind =~ /C/) {  #Åê·Ï
+        } elsif ($w_kind2 =~ /C/) {  #Åê·Ï
             $d2 = "»¦³²" ;
-        } elsif ($w_kind =~ /D/) {  #Çú·Ï
+        } elsif ($w_kind2 =~ /D/) {  #Çú·Ï
             $d2 = "Çú»¦" ;
-        } elsif ($w_kind =~ /S/) {  #»É·Ï
+        } elsif ($w_kind2 =~ /S/) {  #»É·Ï
             $d2 = "»É»¦" ;
-        } elsif (($w_kind =~ /B/) || (($w_kind =~ /G|A/) && ($w_wtai == 0))) { #ÛþËÀ or ÃÆÌµ¤·½Æ or ÌðÌµ¤·µÝ
+        } elsif (($w_kind2 =~ /B/) || (($w_kind2 =~ /G|A/) && ($w_wtai == 0))) { #ÛþËÀ or ÃÆÌµ¤·½Æ or ÌðÌµ¤·µÝ
             $d2 = "ËÐ»¦" ;
         } else {
             $d2 = "»¦³²" ;
         }
 
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,DEATH2,$dmes,\n" ;
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,DEATH2,$dmes,$w_name2,,\n" ;
         if ($w_no eq "À¯ÉÜ") {
             $deth = "$w_f_name $w_l_name¤Ë¤è¤ê$d2";
         } else {
@@ -107,7 +121,6 @@ sub LOGSAVE {
             $msg = "" ;
         }
     } elsif ($work eq "DEATH3" ){ #Å¨»àË´¡ÊÍ×°ø¡§ÇÔ»à¡Ë
-        local($w_name,$w_kind) = split(/<>/, $wep);
         if ($w_kind =~ /N/) {           #»Â·Ï
             $d2 = "»Â»¦" ;
         } elsif (($w_kind =~ /A/) && ($wtai > 0)) { #Ìð·Ï
@@ -125,16 +138,15 @@ sub LOGSAVE {
         } else {
             $d2 = "»¦³²" ;
         }
-        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$f_name,$l_name,$sex,$cl,$no,DEATH3,$w_dmes,\n" ;
+        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$f_name,$l_name,$sex,$cl,$no,DEATH3,$w_dmes,$w_name,$d2,\n" ;
         $deth = "$f_name $l_name¡Ê$cl $sex$noÈÖ¡Ë¤Ë¤è¤ê$d2";
         if ($msg ne "") {
             $w_msg = "$f_name $l_name¡Ø$msg¡Ù" ;
         } else {
             $w_msg = "" ;
         }
-        $w_log = "";
     } elsif ($work eq "DEATH4" ){ #À¯ÉÜ¤Ë¤è¤ë»¦³²
-        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,,,,,,DEATH4,$w_dmes,\n" ;
+        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,,,,,,DEATH4,$w_dmes,,,\n" ;
         $deth = "À¯ÉÜ¤Ë¤è¤ë½è·º";
         $log ="";
         if ($w_msg ne "") {
@@ -143,22 +155,30 @@ sub LOGSAVE {
             $msg = "" ;
         }
     } elsif ($work eq "DEATH5" ){ #À¯ÉÜ¤Ë¤è¤ë»¦³²2
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH4,$dmes,\n" ;
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,DEATH4,$dmes,,,\n" ;
         $deth = "À¯ÉÜ¤Ë¤è¤ë½è·º";
         $log ="";
         $msg = "À¯ÉÜ¡Ø¥À¥á¤À¤Ê¤¢¡¢ÉÔ¿³¤Ê¹ÔÆ°¤ò¼è¤Ã¤¿¤é¼óÎØ¤òÇúÇË¤¹¤ë¤Ã¤Æ¸À¤Ã¤¿¤è¤Ê¡Ù" ;
     } elsif ($work eq "DEATHAREA" ){ #»àË´¡ÊÍ×°ø¡§¶Ø»ß¥¨¥ê¥¢¡Ë
-        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,,,,,,DEATHAREA,$w_dmes,\n" ;
+        $newlog = "$now,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,,,,,,DEATHAREA,$w_dmes,,,\n" ;
         $deth = "¶Ø»ß¥¨¥ê¥¢ÂÚºß";
         $msg = "" ;$log ="";
     } elsif ($work eq "WINEND1" ){ #Í¥¾¡·èÄê
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,WINEND,$dmes,\n" ;
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,WINEND,$dmes,,,\n" ;
         open(FLAG,">$end_flag_file"); print(FLAG "½ªÎ»\n"); close(FLAG);
-    } elsif ($work eq "EX_END" ){ #¥Ï¥Ã¥­¥ó¥°¤Ë¤è¤ê¥×¥í¥°¥é¥à¤òÄä»ß
-        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,EX_END,$dmes,\n" ;
+        require "$LIB_DIR/adlib.cgi";
+        &InitResetTime;
+    } elsif ($work eq "EX_END" ){ #¥×¥í¥°¥é¥à¤òÄä»ß
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,EX_END,$dmes,,,\n" ;
+        require "$LIB_DIR/adlib.cgi";
+        &InitResetTime;
+    } elsif ($work eq "HACK" ){ #¥Ï¥Ã¥­¥ó¥°
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,HACK,,,,\n" ;
+    } elsif ($work eq "SPEAKER" ){ #¶«¤Ö
+        $newlog = "$now,$f_name,$l_name,$sex,$cl,$no,,,,,,SPEAKER,$speech,,,\n" ;
     } elsif ($work eq "AREAADD" ){ #¶Ø»ß¥¨¥ê¥¢ÄÉ²Ã
         $ar = $ar2 - 3 ;
-        $newlog = "$now,$ar2,$ar,,,,,,,,,AREA,,\n" ;
+        $newlog = "$now,$ar2,$ar,,,,,,,,,AREA,,$pgday,,\n" ;
     }
 
     open(DB,"$log_file") || exit; seek(DB,0,0); @loglist=<DB>; close(DB);
@@ -193,10 +213,6 @@ sub LOCK {
             if (--$retry <= 0) {  &ERROR("¤¿¤À¤¤¤ÞÂçÊÑº®¤ß¹ç¤Ã¤Æ¤ª¤ê¤Þ¤¹¡£¤·¤Ð¤é¤¯¤ªÂÔ¤Á²¼¤µ¤¤¡£"); }
             sleep(1);
         }
-    # TripodÍÑ¡Ê»ÃÄê¡Ë
-    } elsif ($lkey == 3) {
-        local($lk) = mkdir($lockf, 0755);
-        if ($lk == 0) {  &ERROR("¤¿¤À¤¤¤ÞÂçÊÑº®¤ß¹ç¤Ã¤Æ¤ª¤ê¤Þ¤¹¡£¤·¤Ð¤é¤¯¤ªÂÔ¤Á²¼¤µ¤¤¡£"); }
     }
     $lockflag=1;
 }
@@ -208,7 +224,6 @@ sub LOCK {
 sub UNLOCK {
     if ($lkey == 1) { unlink($lockf); }
     elsif ($lkey == 2) { rmdir($lockf); }
-    elsif ($lkey == 3) { rmdir($lockf); }
     $lockflag=0;
 }
 

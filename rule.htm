@@ -1,85 +1,297 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
-<TITLE>BATTLE ROYALE ゲーム説明</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=euc-jp">
+<TITLE>BATTLE ROYALE 説明書</TITLE>
+<STYLE type=text/css>
+<!--
+BODY    {
+    FONT-SIZE   : 9pt;
+    FONT-FAMILY : "MS UI Gothic";
+    FONT-WEIGHT : normal;
+    FONT-STYLE  : normal;
+    FONT-VARIANT: normal;
+}
+TD      { FONT-SIZE : 9pt; }
+TH      {
+    FONT-SIZE    : 9pt;
+    BACKGROUND   : #005; 
+    BORDER-RIGHT : #336 1px solid; 
+    BORDER-TOP   : #99c 1px solid; 
+    BORDER-LEFT  : #99c 1px solid; 
+    BORDER-BOTTOM: #336 1px solid; 
+}
+A:hover { COLOR : #ffff99 }
+-->
+</STYLE>
 </HEAD>
 <BODY bgcolor="#000000" text="#ffffff" link="#ff0000" vlink="#ff0000" alink="#ff0000">
-<P><INPUT type="HIDDEN" name="mode" value="main"><FONT color="#ff0000" size="5"><B>ゲーム説明</B></FONT><BR>
+<a name="top"><FONT color="#ff0000" size="+2" face="ＭＳ Ｐ明朝"><B>BATTLE ROYALE 説明書</B></FONT></a><BR>
 <BR>
-<FONT color="#ff0000"><B>■勝利条件</B></FONT><BR>
-　　<BR>
-一週間の期間で他の参加者全員を倒し、最後まで生き残る。<FONT color="#ff0000"><B><FONT color="#ffff00"><BR>
-</FONT></B></FONT><BR>
-<FONT color="#ff0000"><B>■参加可能数</B></FONT><BR>
-　　<BR>
-男子、女子共に２１名を１クラスとし、最大１０クラスまで登録可能。<BR>
-死亡者もクラスメイトとして計算されるので注意する事。<BR>
+<FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B>■登録の前に</B></FONT><BR>
 <BR>
-<FONT color="#ff0000"><B>■コマンド説明</B></FONT>　<BR>
+　　ゲームに参加するときは以下のことを<font color="#ffff00">必ず</font>守ってください。<BR>
+　　違反した場合は容赦なく<font color="#ff0000">アクセス制限</font>をする場合があります。<BR>
+　　一度アク禁をしてしまえば解除することはないと思われますので、ご注意下さい。<BR>
 <BR>
-　　『移動』　−　現在のエリアを離れ、別のエリアに移動する。<B><FONT color="#00ff00">（スタミナ１０前後消費）</FONT></B><BR>
+　　<FONT color="#ffff00"><B>登録するときに．．．</B></font><BR>
+　　　姓、名は日本語名で。名前は平仮名でもいいですが、名字は漢字のみです。<BR>
+　　　原作に登場した名前や、他の人が不快に思う名前を禁止いたします。<BR>
 <BR>
-　　『探索』　−　現在のエリアを探索する。イベントや、他のプレイヤーとの戦闘の場合あり。<B><FONT color="#00ff00">（スタミナ２０前後消費）</FONT></B><BR>
+　　<FONT color="#ffff00"><B>プレイ中は．．．</B></font><BR>
+　　　ブラウザの機能の「戻る（前）」「進む（次）」「更新（再読込）」等は使わないでください。<BR>
+　　　データが破損したりして、他の人に迷惑をかけます。<BR>
 <BR>
-　　『アイテム使用』　−　所持アイテムの使用、装備を行う。アイテムは<B><FONT color="#00ff00">５つ</FONT></B>まで所持できる。<BR>
+　　<FONT color="#ffff00"><B>その他の禁止事項</B></font><BR>
+　　　死亡後２時間以内の再登録<BR>
+　　　生存者情報のやり取り<BR>
+　　　重複登録<BR>
+　　　各メッセージ機能での「他人を不快にする」発言<BR>
+　　　その他、一般常識を逸脱する行為<BR>
 <BR>
-　　『アイテム投棄』　−　所持アイテムを捨てる。捨てたアイテムはそのエリアに放置される。<BR>
+
 <BR>
-　　『治療』　−　傷の治療をし、体力を回復する。治療の取消し、コンティニュー時に、治療状態が解除される。<B><FONT color="#00ff00">（２分に１ポイント回復）</FONT></B><BR>
+<FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B>■目次</B></FONT><BR>
 <BR>
-　　『睡眠』　−　睡眠をとり、スタミナを回復する。睡眠の取消し、コンティニュー時に、睡眠状態が解除される。<B><FONT color="#00ff00">（１分に１ポイント回復）</FONT></B><BR>
+<table><tr valign="top">
+<td><UL>
+  <LI><a href="#win">勝利条件</a>
+  <LI><a href="#reglim">参加可能人数</a>
+  <LI><a href="#command">コマンド説明</a>
+  <LI><a href="#tactics">基本方針</a>
+  <LI><a href="#sts">ステータス説明</a>
+  <LI><a href="#battle">戦闘説明</a>
+  <LI><a href="#deatharea">禁止エリア</a>
+  <LI><a href="#trap">罠</a>
+  <LI><a href="#caution">注意事項</a>
+</UL></td>
+<td><UL>
+  <LI><a href="#kega">怪我</a>
+  <LI><a href="#group">グループ説明</a>
+  <LI><a href="#tension">テンション</a>
+  <LI><a href="#club">部活説明</a>
+  <LI><a href="#juku">熟練度・熟練レベル</a>
+  <LI><a href="#item">アイテム説明</a>
+  <LI><a href="#weapon">武器</a>
+  <LI><a href="#itemgou">合成</a>
+</UL></td>
+</tr></table>
+
+<a name="win"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>勝利条件</B></FONT></a><BR>
 <BR>
-　　『特殊』　−　特殊コマンドを実行できる。<BR>
+　　一週間の期間で他の参加者全員を倒し、最後まで生き残る。<BR>
+　　又はゲームの<FONT color="#00ff00" size="+1"><B>破壊</B></font>。<br>
 <BR>
-　　『機能』　−　基本方針の変更、口癖の変更、熟練レベルの確認を実行できる。<BR>
+
 <BR>
-<FONT color="#ff0000"><B>■ステータス説明</B></FONT><BR>
+<a name="reglim"><FONT color="#ff0000"size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>参加可能数</B></FONT></a><BR>
 <BR>
-　　『クラス』　−　所属クラス<BR>
+　　男子、女子共に２０〜２５名を１クラスとし、最大２〜４クラスまで登録可能。…<strike>管理人の気分により変わります</strike><BR>
+　　死亡者もクラスメイトとして計算されるので注意する事。<BR>
 <BR>
-　　『氏名』　−　プレイヤー名<BR>
+
 <BR>
-　　『番号』　−　性別と、出席番号<BR>
+<a name="command"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>コマンド説明</B></FONT></a><BR>
 <BR>
-　　『クラブ』　−　所属しているクラブ。転校時に自動的に配属される。<BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">移動</th>
+  </tr>
+  <tr>
+   <th width="10%">移動</th><td width="70%">現在のエリアを離れ、別のエリアに移動する。</td><td><FONT color="#00ff00"><B>スタミナ１０前後消費</B></FONT></td>
+  </tr>
+ </tbody>
+</table>
+<BR><BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">行動</th>
+  </tr>
+  <tr>
+   <th width="10%">探索</td><td width="70%">現在のエリアを探索する。イベントや、他のプレイヤーとの戦闘の場合あり。</td><td><FONT color="#00ff00"><B>スタミナ２０前後消費</B></FONT></td>
+  </tr>
+  <tr>
+   <th>治療</td><td>傷の治療をし、体力を回復する。コンティニュー時に自動的に解除される。</td><td><FONT color="#00ff00"><B>２分に１ポイント回復</B></FONT></td>
+  </tr>
+  <tr>
+   <th>睡眠</td><td>睡眠をとり、スタミナを回復する。コンティニュー時に自動的に解除される。</td><td><FONT color="#00ff00"><B>１分に１ポイント回復</B></FONT></td>
+  </tr>
+  <tr>
+   <th>注意</td><td><font color="#ffff00"><b>最終日や狂気状態の時</b>は治療コマンドを使用できません！</font></td><td><br></td>
+  </tr>
+ </tbody>
+</table>
+<BR><BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">アイテム</th>
+  </tr>
+  <tr>
+   <th width="10%">使用・装備</td><td width="70%">所持アイテムの使用、装備を行う。アイテムは<B><FONT color="#00ff00">５つ</FONT></B>まで所持できる。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>投棄</td><td>所持アイテムを捨てる。捨てたアイテムはそのエリアに放置される。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>整理</td><td>所持アイテムの中で同じ物を一つにまとめる。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>分割</td><td>所持アイテムを分割する。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>譲渡</td><td>所持アイテムを同じグループパスの人に渡すことが出来る。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>合成</td><td>所持アイテム２つから別のアイテムを作る。合成アイテム一覧は<A href="#itemgou">コチラ</a>。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>装備解除</td><td>武器や防具を外すことが出来ます。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>装備投棄</td><td>武器や防具を棄てます。</td><td><BR></td>
+  </tr>
+  <tr>
+   <th>武器分解</td><td>武器に装填されている矢や弾丸を取り出せます。</td><td><BR></td>
+  </tr>
+ </tbody>
+</table>
+<BR><BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody align="center">
+  <tr>
+   <th colspan="7"><a name="tactics">基本方針</a></th>
+  </tr>
+  <tr>
+   <th width="10%">方針</td><th width="10%">攻撃力</th><th width="10%">防御力</th><th width="10%">発見率</th><th width="10%">先制率</th><th width="10%">遭遇率</th><th>その他</th>
+  </tr>
+  <tr>
+   <th>通常</td><td>―</td><td>―</td><td>―</td><td>―</td><td>―</td><td>　</td>
+  </tr>
+  <tr>
+   <th>攻撃重視</td><td><font color="lime">↑↑</font></td><td><font color="red">↓↓</font></td><td>―</td><td>―</td><td>―</td><td>　</td>
+  </tr>
+  <tr>
+   <th>防御重視</td><td><font color="red">↓↓</font></td><td><font color="lime">↑↑</font></td><td>―</td><td>―</td><td>―</td><td><font color="orange">5日目まで使用可能。</font></td>
+  </tr>
+  <tr>
+   <th>隠密行動</td><td><font color="red">↓</font></td><td><font color="red">↓</font></td><td><font color="red">↓↓</font></td><td><font color="lime">↑↑</font></td><td><font color="lime">↓↓</font></td><td>　</td>
+  </tr>
+  <tr>
+   <th>探索行動</td><td><font color="red">↓</font></td><td><font color="red">↓</font></td><td><font color="lime">↑↑</font></td><td><font color="lime">↑</font></td><td><font color="red">↑</font></td><td>　</td>
+  </tr>
+  <tr>
+   <th>先制行動</td><td><font color="red">↓</font></td><td><font color="red">↓</font></td><td><font color="lime">↑</font></td><td><font color="lime">↑↑</font></td><td><font color="red">↑</font></td><td>　</td>
+  </tr>
+  <tr>
+   <th>命中重視</td><td><font color="red">↓↓</font></td><td>―</td><td>―</td><td>―</td><td>―</td><td><font color="#00ff00">命中率　↑↑</font></td>
+  </tr>
+  <tr>
+   <th>回避重視</td><td>―</td><td><font color="red">↓↓</font></td><td>―</td><td>―</td><td>―</td><td><font color="#00ff00">回避率　↑↑</font></td>
+  </tr>
+  <tr>
+   <th>連闘行動</td><td colspan="5"><b>能力変化なし。</b><font color="#00ff00">同じ人に連続で戦闘可能。</font><br><font color="#ff0000">同じグループ内で戦闘発生。スタミナ消費量増大。</font></td><td><font color="orange">6日目以降又は残り20人以下で使用可能。</font></td>
+  </tr>
+ </tbody>
+</table>
+<BR><BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">特殊</th>
+  </tr>
+  <tr>
+   <th width="10%">反撃設定</td><td width="70%">攻撃を受けた際の自動反撃の方法を設定します。</td><td><br></td>
+  </tr>
+  <tr>
+   <th>口癖変更</td><td>死亡時、殺害時の台詞、一言コメントと愛称をそれぞれ設定します。</td><td><br></td>
+  </tr>
+  <tr>
+   <th>所属変更</td><td>グループ名とグループパスを変更できる。しかし、<font color="yellow"><b>グループ名を変更するとスタミナを１５０消費します</b></font。></td><td><br></td>
+  </tr>
+  <tr>
+   <th>応急処置</td><td>ステータス異状を治療する。</td><td><FONT color="#00ff00"><B>スタミナを５０消費</B></FONT></td>
+  </tr>
+  <tr>
+   <th>毒見</td><td>持っている回復アイテムに毒が混入されていないか調べる。</td><td><FONT color="#00ff00"><B>スタミナを２０消費</B></FONT></td>
+  </tr>
+  <tr>
+   <th>毒物混入</td><td>毒物を回復アイテムに混ぜる。</td><td><B><FONT color="orange">毒薬</FONT></B></td>
+  </tr>
+  <tr>
+   <th>毒中和</td><td>持っている回復アイテムの毒を中和する。</td><td><B><FONT color="orange">毒中和剤</FONT></B></FONT></td>
+  </tr>
+  <tr>
+   <th>叫ぶ</td><td>すべてのエリアの人に一定時間の間メッセージを伝えられる。</td><td><B><FONT color="orange">携帯スピーカ</FONT>or<FONT color="orange">応援団</FONT></B></td>
+  </tr>
+  <tr>
+   <th>ハッキング</td><td>ハッキングに成功すればすべての禁止エリアを一日だけ解除できる。</td><td><B><FONT color="orange">モバイルPC</FONT></B></td>
+  </tr>
+ </tbody>
+</table>
 <BR>
-　　『レベル』　−　キャラクターのレベル。上昇すると、最大体力、攻撃力、防御力が上昇する<BR>
+
 <BR>
-　　『経験値』　−　キャラクターの経験値/次レベルに必要な経験値。一定値に達すると、レベルがアップする。他プレイヤーへの攻撃成功時に獲得<BR>
+<a name="sts"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>ステータス説明</B></FONT></a><BR>
 <BR>
-　　『体力』　−　プレイヤーの体力/最大体力。０になるとキャラクターは死亡する。<BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">ステータス</th>
+  </tr>
+  <tr>
+   <th width="10%">クラス</th><td width="550">所属クラス</td>
+  </tr>
+  <tr>
+   <th>氏名</th><td>プレイヤー名（クラスと出席番号）</td>
+  </tr>
+  <tr>
+   <th>愛称</th><td>プレイヤーの別名？ｗ</td>
+  </tr>
+  <tr>
+   <th>クラブ</th><td>所属しているクラブ。転校時に自動的に配属される。</td>
+  </tr>
+  <tr>
+   <th>グループ</th><td>所属しているグループ。同じグループの人とは戦闘しない。また、アイテムを譲渡できる。</td>
+  </tr>
+  <tr>
+   <th>レベル</th><td>キャラクターのレベル。上昇すると、最大体力、攻撃力、防御力が上昇する。</td>
+  </tr>
+  <tr>
+   <th>経験値</th><td>キャラクターの経験値/レベルアップする経験値　他プレイヤーへの攻撃成功時に獲得。</td>
+  </tr>
+  <tr>
+   <th>体力</th><td>プレイヤーの体力/最大体力　０になるとキャラクターは死亡する。</td>
+  </tr>
+  <tr>
+   <th>テンション</th><td>プレイヤーのテンション　<font color="blue">鬱</font>＜<font color="aqua">弱気</font>＜<font color="lime">普通</font>＜<font color="yellow">強気</font>＜<font color="orange">超強気</font>の順に攻撃力が上がり、命中率が下がる</td>
+  </tr>
+  <tr>
+   <th>スタミナ</th><td>最大値３００で、移動、探索で減少し、<B>０になると、最大体力が<FONT color="#ff0000">大幅に</FONT>減少する</B>。</td>
+  </tr>
+  <tr>
+   <th>攻撃力</th><td>プレイヤーの攻撃力と、武器の攻撃力。</td>
+  </tr>
+  <tr>
+   <th>防御力</th><td>プレイヤーの防御力と、防具の合計の防御力。</td>
+  </tr>
+  <tr>
+   <th>武器</th><td>現在装備している武器。</td>
+  </tr>
+  <tr>
+   <th>各種防具</th><td>現在装備している各種防具と耐久度。ダメージを受けるたびに耐久度が減り、０になると防具が壊れる。</td>
+  </tr>
+  <tr>
+   <th>所持品</th><td>プレイヤーが所持している所持品リスト。最大５つまで所持できる。</td>
+  </tr>
+ </tbody>
+</table>
 <BR>
-　　『スタミナ』　−　最大値１００で、移動、探索で減少し、０になると、最大体力が最大<B><FONT color="#00ff00">１〜１０％</FONT></B>減少する。<BR>
+
 <BR>
-　　『攻撃力』　−　プレイヤーの攻撃力と、武器の攻撃力。<BR>
-<BR>
-　　『武器』　−　現在装備している武器。<BR>
-<BR>
-　　『防御力』　−　プレイヤーの防御力と、防具の防御力。<BR>
-<BR>
-　　『防具』　−　現在装備している防具と、耐久度。ダメージを受けるたびに、耐久度が減り、０になると、防具が壊れる。<BR>
-<BR>
-　　『所持品』　−　プレイヤーが所持している所持品リスト。最大５つまで所持できる。<BR>
-<BR>
-<FONT color="#ff0000"><B>■アイテム説明</B></FONT><BR>
-<BR>
-　　パン　−　食べる事により、スタミナをある程度回復できる。ゲーム開始時に、政府より２つ支給される。<BR>
-<BR>
-　　水　−　飲む事により、体力をある程度回復できる。ゲーム開始時に、政府より２つ支給される。<BR>
-<BR>
-　　簡易レーダー　−　使用すると、自分のエリアに存在する人数がわかる。但し、誰がいるのかまではわからない。<BR>
-<BR>
-　　レーダー　−　使用すると、各エリアに存在する人数がわかる。但し、誰がいるのかまではわからない。<BR>
-<BR>
-　　武器　−　ゲーム開始時に、ランダムで支給される。他プレイヤーを倒すと、奪う事が出来る。<BR>
-<BR>
-　　防具　−　装備する事により、身を守る事が出来る。種類によって、特定の武器のダメージを半減。但し、苦手とする武器もあり、その際はダメージが倍増する。<BR>
-<BR>
-　　その他　−　このゲームには、他にも多数のアイテムが存在する。その効果などは不明である。<BR>
-<BR>
-　　※アイテムを最大数所持時、アイテムを発見しても、手に入れる事は出来ない。<BR>
-<BR>
-<FONT color="#ff0000"><B>■戦闘説明</B></FONT><BR>
+<a name="battle"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>戦闘説明</B></FONT></a><BR>
 <BR>
 　　エリア移動時、又は、エリア探索時に他のプレイヤーに遭遇した場合、戦闘となる。<BR>
 　　こちらが先に発見した場合、先制攻撃が可能。<BR>
@@ -88,28 +300,39 @@
 　　戦闘で相手を殺した場合、相手が持っていた所持品、武器、防具のいずれかの一つを奪う事ができる。<BR>
 　　但し、休憩中などに襲われて、返り討ちにした場合は、所持品を奪うことは出来ない。<BR>
 <BR>
-<FONT color="#ff0000"><B>■クラブ</B></FONT><BR>
+　　戦闘は、相手を発見した者の先制攻撃となる。自分が行動して、相手を発見した際、『攻撃』or『逃げる』を選択可能。<BR>
+　　又、『攻撃』は、装備している武器により、殴る、刺すなど、武器で選択可能なコマンドになる。<BR>
 <BR>
-　　各プレイヤーは何かしらのクラブに入部（登録時にランダム決定）しており、所属しているクラブによって、<BR>
-　　ゲーム開始時の武器熟練度が変動する。<BR>
-<BR>
-<FONT color="#ff0000"><B>■戦闘</B></FONT><BR>
-<BR>
-　　戦闘は、相手を発見した者の先制攻撃となる。自分が行動して、相手を発見した際、『攻撃』『逃げる』『メッセージ』を選択可能。<BR>
-　　又、『戦闘』は、装備している武器により、殴る、刺すなど、武器で選択可能なコマンドになる。<BR>
-<BR>
-　　『戦闘』　−　相手を攻撃する。反撃を受ける可能性もある。もたもたしているうちに、相手が逃げてしまったら、攻撃は不可能となる。<BR>
+　　『攻撃』　−　相手を攻撃する。反撃を受ける可能性もある。もたもたしているうちに、相手が逃げてしまったら、攻撃は不可能となる。<BR>
 <BR>
 　　『逃亡』　−　攻撃せず、逃亡する。経験値、熟練度を取得する事は出来ない。<BR>
 <BR>
-　　『メッセージ』　−　攻撃時に、相手にメッセージを送る。逃亡時はメッセージを送ることは出来ない。<BR>
+　　メッセージ欄にメッセージを入力すると、攻撃時に相手にメッセージを送る。逃亡時はメッセージを送ることは出来ない。<BR>
 <BR>
-<FONT color="#ff0000"><B>■怪我</B></FONT><BR>
+
 <BR>
-　　戦闘中に、一定の確率で負傷をする事がある。負傷箇所により、以下の制限を受ける。<BR>
-　　又、武器によって負傷させられる確立、場所が異なる。<BR>
+<a name="deatharea"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>禁止エリア</B></FONT></a><BR>
+<BR>
+　　毎日零時に担任より、禁止エリアが発表される。（３箇所）<BR>
+　　時間になっても、禁止エリアにプレイヤーがいた場合、首輪が爆発し、死亡する。<BR>
+<BR>
+
+<BR>
+<a name="trap"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>罠</B></FONT></a><BR>
+<BR>
+　　あるアイテムを使用することで、エリアに罠を仕掛けることが出来る。<BR>
+　　罠によりダメージは可変で、自分で仕掛けた罠に、自分が引っかかる可能性もあるので、<BR>
+　　罠の設置には、注意が必要である。<BR>
+<BR>
+
+<BR>
+<a name="kega"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>怪我</B></FONT></a><BR>
+<BR>
+　　戦闘やイベント、アイテム等で一定の確率で負傷をする事がある。負傷箇所により、以下の制限を受ける。<BR>
+　　又、武器によって負傷させられる確立が異なる。<BR>
 　　特定の防具によっては、怪我を防ぐことも可能である。<BR>
 　　怪我を防ぐ都度、防具の耐久度が低下し、破損する。<BR>
+　　防具の耐久度は、「修繕道具」によって回復させることが出来る。<BR>
 <BR>
 　　『頭』　−　攻撃の命中率が低下。<BR>
 <BR>
@@ -119,47 +342,246 @@
 <BR>
 　　『足』　−　移動、探索時のスタミナ消費増加。<BR>
 <BR>
-　　怪我は、特殊コマンドの「応急処置」で治療する事が出来る。（一箇所のみ）<BR>
-　　応急処置には、スタミナ７０を必要とする。<BR>
+　　『毒』　−　移動、探索時体力も消費。<BR>
 <BR>
-<FONT color="#ff0000"><B>■熟練度・熟練レベル</B></FONT><BR>
+　　『狂気』　−　攻撃力が上昇、防御力・命中率・回避率が低下。治療・休憩コマンドを使用できない。<BR>
+<BR>
+　　怪我は、特殊コマンドの「応急処置」で治療する事が出来る。（一箇所のみ）<BR>
+　　応急処置には、スタミナ５０を必要とする。（保健委員はその限りではない）<BR>
+<BR>
+
+<BR>
+<a name="group"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>グループ説明</B></FONT></a><BR>
+<BR>
+　　グループＩＤとグループパス両方を合わせた場合のみ、戦闘が発生しなくなる。<BR>
+　　※<font color="#ffff00">最終日は同じグループの人とも戦闘になります。</font><br>
+　　アイテム交換はグループパスだけ合わせればよい。<BR>
+　　グループＩＤの変更にはスタミナを消費（150）するので、注意が必要である。<BR>
+　　また、同グループの人数は６人までとする。<BR>
+　　<font color="yellow">グループを組んで戦うのは自由ですが、最後に帰れるのは<font color="#ff0000">一人</font>だけです。</font><BR>
+<BR>
+
+<BR>
+<a name="tension"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>テンション説明</B></FONT></a><BR>
+<BR>
+　　<font color="blue">鬱</font>＜<font color="aqua">弱気</font>＜<font color="lime">普通</font>＜<font color="yellow">強気</font>＜<font color="orange">超強気</font>の順に攻撃力が上がりますが、命中率は下がります。<BR>
+　　変化条件は<br>
+<table><tr>
+<td>
+　　　相手を殺害<br>
+　　　自分の攻撃が命中<br>
+　　　相手の攻撃を回避<br>
+　　　攻撃を外す<br>
+　　　相手に攻撃を当てられる<br>
+</td><td>
+…<br>
+…<br>
+…<br>
+…<br>
+…<br>
+</td><td align="center">
+<font color="#00ff00">↑↑↑</font><br>
+<font color="#00ff00">↑</font><br>
+<font color="#00ff00">↑</font><br>
+<font color="#ff0000">↓</font><br>
+<font color="#ff0000">↓</font><br>
+</td>
+</tr></table>
+<BR>
+
+<BR>
+<a name="club"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>部活説明</B></FONT></a><BR>
+<BR>
+<table border="1" cellspacing="0">
+ <tbody>
+  <tr>
+   <th colspan="2">部活</th>
+  </tr>
+  <tr>
+   <td align="center">弓道部</td><td>「射」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">射撃部</td><td>「銃」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">バスケ部</td><td>「投」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">空手部</td><td>「棍」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">フェンシング部</td><td>「刺」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">剣道部</td><td>「斬」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">科学部</td><td>「爆」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">ボクシング部</td><td>「殴」の熟練度が高い。</td>
+  </tr>
+  <tr>
+   <td align="center">陸上部</td><td>移動・探索でのスタミナ消費が少なくなる「陸上用シューズ」を装備している</td>
+  </tr>
+  <tr>
+   <td align="center">料理研究部</td><td>毒物を混入したときのダメージが大きい。毒見時のスタミナ消費を軽減。エプロン（装飾）を装備</td>
+  </tr>
+  <tr>
+   <td align="center">パソコン部</td><td>ハッキング成功率が高い。フロッピーディスク（投武器）を装備</td>
+  </tr>
+  <tr>
+   <td align="center">サバイバル部</td><td>睡眠の効果が高い。地図（その他）を持っている。</td>
+  </tr>
+  <tr>
+   <td align="center">保健委員</td><td>治療の効果が高い。応急処置時のスタミナ消費を軽減。注射器（刺武器）を装備</td>
+  </tr>
+  <tr>
+   <td align="center">応援団</td><td>初期最大体力が多い。また、何も使わずに叫ぶことが可能。学ラン（セーラー服）の代わりに長ランを装備</td>
+  </tr>
+  <tr>
+   <td align="center">演劇部</td><td>戦闘で、相手に状態を見破られない。防御力がちょっと高め。演劇小道具（装飾）を装備</td>
+  </tr>
+  <tr>
+   <td align="center">天才</td><td>全ての武器の熟練度が高い。</td>
+  </tr>
+ </tbody>
+</table>
+<BR>
+
+<BR>
+<a name="juku"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>熟練度・熟練レベル</B></FONT></a><BR>
 <BR>
 　　使用する武器種別毎に熟練度があり、その武器で敵を攻撃する度に熟練度があがっていく。<BR>
 　　熟練度は、攻撃が外れても、上昇する。（攻撃をせずに逃走した時は熟練値を得ることはできない）<BR>
-　　熟練度が一定値に達すると、熟練レベルが上がる。
+　　熟練度が一定値に達すると、熟練レベルが上がる。<BR>
 　　熟練していない種類の武器で戦闘をすると、その武器の力を１００％発揮する事が出来ない。<BR>
 　　熟練したものが、武器を使えば、武器の持つ力を上回る効果を発揮するだろう。<BR>
 <BR>
-<FONT color="#ff0000"><B>■禁止エリア<BR>
-</B></FONT><BR>
-　　毎日零時に担任より、禁止エリアが発表される。（３箇所）<BR>
-　　時間になっても、禁止エリアにプレイヤーがいた場合、首輪が爆発し、死亡する。<BR>
+
 <BR>
-<FONT color="#ff0000"><B>■武器<BR>
-</B></FONT><BR>
+<a name="item"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>アイテム説明</B></FONT></a><BR>
+<BR>
+　　このゲームには様々なアイテムが登場する。その一部を紹介する。<BR>
+　　※アイテムを最大数所持時、アイテムを発見しても、手に入れる事は出来ない。<BR><BR>
+<table border="1" cellspacing="0" width="95%">
+ <tbody>
+  <tr>
+   <th colspan="3">アイテム</th>
+  </tr>
+  <tr>
+   <td width="12%">パン</td><td>食べる事により、スタミナをある程度回復できる。ゲーム開始時に政府より支給される。</td>
+  </tr>
+  <tr>
+   <td>水</td><td>飲む事により、体力をある程度回復できる。ゲーム開始時に政府より支給される。</td>
+  </tr>
+  <tr>
+   <td>簡易レーダー</td><td>使用すると、自分のエリアに存在する人数がわかる。但し、誰がいるのかまではわからない。</td>
+  </tr>
+  <tr>
+   <td>レーダー</td><td>使用すると、各エリアに存在する人数がわかる。但し、誰がいるのかまではわからない。</td>
+  </tr>
+  <tr>
+   <td>武器</td><td>ゲーム開始時に、ランダムで支給される。他プレイヤーを倒すと、奪う事が出来る。</td>
+  </tr>
+  <tr>
+   <td>防具</td><td>装備する事により、身を守る事が出来る。武器との相性により、ダメージを半減させることもあるが、倍増することもある。</td>
+  </tr>
+  <tr>
+   <td>砥石</td><td>刃物（斬・刺）を研ぐことによって、攻撃力を増やすことが出来る。（上限３０）</td>
+  </tr>
+  <tr>
+   <td>釘</td><td>棍系の武器に刺すことによって、攻撃力を上げることが出来る。（上限３０）</td>
+  </tr>
+  <tr>
+   <td>お守り</td><td>装備していると、致命傷を負っても持ち直すことがある。</td>
+  </tr>
+  <tr>
+   <td>死返玉</td><td>装備していると、致命傷を負っても持ち直すことがある。</td>
+  </tr>
+  <tr>
+   <td>その他</td><td>このゲームには、他にも多数のアイテムが存在する。その効果などは<b>不明</b>である。<strike>いや、別に書くのがめんどいとかじゃないからね</strike></td>
+  </tr>
+ </tbody>
+</table>
+<BR>
+
+<BR>
+<a name="weapon"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>武器</B></FONT></a><BR>
+<BR>
 　　銃、弓系の武器は、弾丸、矢を装填しなければ、鈍器としてしか利用出来ない。<BR>
-　　弾丸、矢は、６発まで装填可能。<BR>
+　　弾丸は１２発、矢は１２発まで装填可能。<BR>
 　　武器は、一定の確率で壊れる事がある。<BR>
 　　壊れた武器は二度と使い物にならず、素手で戦わなければならない。<BR>
-　　投げて攻撃するタイプの武器は、投げつけた後、壊れてしまうので、消耗品となる。<BR>
+　　投げて攻撃するタイプの武器は、投げつけた後、壊れてしまうので、消耗品となる。（回数に「∞」とあるものを除きます）<BR>
 <BR>
-　　「斬」系武器は、1/5の確立で刃こぼれをおこし、攻撃力が低下していく。<BR>
+　　回数制限のない武器は、一定の確立で摩耗し、攻撃力が低下していく。<BR>
 　　特定のアイテムで手入れをする事により攻撃力は増加する。<BR>
 <BR>
-<FONT color="#ff0000"><B>■罠<BR>
-</B></FONT><BR>
-　　あるアイテムを使用することで、エリアに罠を仕掛けることが出来る。<BR>
-　　罠によりダメージは可変で、自分で仕掛けた罠に、自分が引っかかる可能性もあるので、<BR>
-　　罠の設置には、注意が必要である。<BR>
+
 <BR>
-<FONT color="#ff0000"><B>■注意事項<BR>
-</B></FONT><BR>
+<a name="itemgou"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>合成アイテム</B></FONT></a><BR>
+<BR>
+　　※この表には載っていない合成パターンもあります。頑張って見つけてください。<BR>
+<BR>
+<table border="1" width="95%" cellspacing="0">
+ <tbody>
+  <tr>
+   <th width="13%">材料１＋</th><th width="13%">材料２＝</th><th width="13%">合成アイテム</th><th>説明</th>
+  </tr>
+  <tr>
+   <td>軽油</td><td>肥料</td><td>火薬</td><td>火気厳禁（マテ</td>
+  </tr>
+  <tr>
+   <td>ガソリン</td><td>空き瓶</td><td>火炎瓶</td><td>　</td>
+  </tr>
+  <tr>
+   <td>信管</td><td>火薬</td><td>三村式特製爆弾</td><td>全てを吹き飛ばす最強の爆弾</td>
+  </tr>
+  <tr>
+   <td>火薬</td><td>導火線</td><td>ダイナマイト</td><td>　</td>
+  </tr>
+  <tr>
+   <td>スプレー缶</td><td>ライター</td><td>簡易火炎放射器</td><td>火遊び〜（コラ</td>
+  </tr>
+  <tr>
+   <td>○○○○</td><td>○○○○<span style="font-size: 7pt">○</span>○</td><td>モバイルPC</td><td>ハッキングの必需品ｗ</td>
+  </tr>
+  <tr>
+   <td>バット</td><td>釘</td><td>釘バット</td><td>　</td>
+  </tr>
+  <tr>
+   <td>メリケンサック</td><td>釘</td><td>鉤爪</td><td>　</td>
+  </tr>
+  <tr>
+   <td>水</td><td>粉末ジュース</td><td>特製ジュース</td><td>特製〜。でも旨いかは知らん（ぇ</td>
+  </tr>
+  <tr>
+   <td>？</td><td>狂気の魂</td><td>？</td><td>狂気に魅入られる様々なアイテムを作り出せる</td>
+  </tr>
+  <tr>
+   <td>？</td><td>戦乙女の祝福</td><td>？</td><td>強力な武器や防具を作り出せる</td>
+  </tr>
+  <tr>
+   <td>食材</td><td>食材</td><td>特製料理</td><td>お手製の料理。食中毒には気を付けて（ぇ</td>
+  </tr>
+  <tr>
+   <td>簡易レーダー</td><td>○○</td><td>レーダー</td><td>　</td>
+  </tr>
+ </tbody>
+</table>
+<BR>
+
+<BR>
+<a name="caution"><FONT color="#ff0000" size="+1" face="ＭＳ Ｐ明朝"><B><a href="#top">■</a>注意事項</B></FONT></a><BR>
+<BR>
 　　開始後、分校に待機していると、零時に首輪が爆発し、死亡するので、分校での待機は命取りとなる。<BR>
 <BR>
 　　一度攻撃した相手へは、その相手がコマンドを実行するまで、もしくは、<BR>
 　　相手が他のプレイヤーに攻撃を受けるまでは、再度攻撃する事が出来ない。<BR>
-</P>
+<BR>
+<center><a href="index.htm"><B>HOME</B></A></center>
 <HR>
-<DIV align="right"><B><A href="http://www.happy-ice.com/battle/" target="_blank">■BATTLE ROYALE■</A></B></DIV>
+<DIV align="right"><B><A href="http://www.happy-ice.com/battle/">BATTLE ROYALE V01.19</A></B></DIV>
 </BODY>
 </HTML>

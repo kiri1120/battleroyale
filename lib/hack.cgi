@@ -1,19 +1,16 @@
 ### ハッキング処理 by kelp###
 
-sub HACKING{
-    local($junbi) = 1;
+sub HACKING {
+
     for ($paso=0; $paso<5; $paso++){
-        if (($item[$paso] eq "モバイルPC<>Y")&&($itai[$paso] >= 1)) {
-            $junbi = 0;
-            last;
-        }
+        if (($item[$paso] eq "モバイルPC<>Y") && ($itai[$paso] >= 1)) { last; }
     }
 
-    if (($Command ne "HACK")||($junbi)) {
-    &ERROR("不正なアクセスです。");
+    if (($Command ne "HACK2") || ($item[$paso] ne "モバイルPC<>Y") || ($itai[$paso] <= 0)) {
+        &ERROR("不正なアクセスです。");
     }
 
-    local($bonus) = 0;  #基本成功率(0の時10%)
+    local($bonus) = 2;  #基本成功率(0の時10%)
     local($dice1) = int(rand(10)) ;
     local($dice2) = int(rand(10)) ;
 
@@ -27,15 +24,12 @@ sub HACKING{
         open(DB,"$area_file");seek(DB,0,0); my(@wk_arealist)=<DB>;close(DB);
         my($wk_ar,$wk_hack,$wk_a) = split(/,/, $wk_arealist[1]);  #ハッキングフラグ取得
         $wk_hack = 1;
-        $wk_arealist[1] = "$wk_ar,$wk_hack,\n";
+        $wk_arealist[1] = "$wk_ar,$wk_hack,,\n";
         open(DB,">$area_file"); seek(DB,0,0); print DB @wk_arealist; close(DB);
         $log = ($log . "ハッキング成功！全ての禁止エリアが解除された！！<BR>") ;
+        &LOGSAVE("HACK");
     }else{
         $log = ($log . "ハッキングは失敗した・・・<BR>") ;
-    }
-
-    for ($paso=0; $paso<5; $paso++){
-        if (($item[$paso] eq "モバイルPC<>Y")&&($itai[$paso] >= 1)){ last; }
     }
 
     if ($dice1 >= 9){   #バッテリ消耗＆ファンブル時機材破壊

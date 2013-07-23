@@ -17,7 +17,8 @@
 ## ----------------------------------------------------------------------------+
 
 #■ ゲームバージョン
-$ver = "V01.19" ;
+$ver = "V01.19.11" ;
+$kaisuu = 25;
 
 #■ ゲームタイトル
 $game = "■ BATTLE ROYALE ■（$ver）" ;
@@ -26,14 +27,16 @@ $game = "■ BATTLE ROYALE ■（$ver）" ;
 
 #■ 管理者ＩＤ＆パスワード
 # ユーザログ崩れの原因になるので、「,」（コンマ）は使用しないで下さい。
-$a_id = "adminid" ; # NPC使用時のIDとなります。
-$a_pass = "adminpass" ;
+$a_id    = "adminid";   # NPC使用時のIDとなります。
+$a_pass  = "adminpass"; # 管理モードパス
+$a_pass2 = "adminpass"; # NPCパス
 
 #■ ディレクトリ(最後は/で閉じません)
 # データ覗き見防止のため必ず変更して下さい。
 $LOG_DIR = "./log" ;
 $DAT_DIR = "./dat" ;
 $LIB_DIR = "./lib" ;
+$ADM_DIR = "$LOG_DIR/adminlog" ;
 
 #■ リンク先(各CGIへのリンク・追加可能)
 # ステータス画面上部に表示されるリンクです。
@@ -43,24 +46,43 @@ $LIB_DIR = "./lib" ;
     '>><A href="rank.cgi" target="_blank">MEMBER</A>',
     '>><A href="map.cgi" target="_blank">MAP</A>',
     '>><A href="news.cgi" target="_blank">NEWS</A>',
-    '>><A href="admin.cgi">ADMIN</A>'
-    );
-
+    '>><A href="admin.cgi" target="_blank">ADMIN</A>',
+);
 # 管理モード等で使用するリンクです。
-$home = "index.htm"; #トップページへのリンクを設定
+$home = "index.htm";    #トップページへのリンクを設定
+$adm = "admin.cgi";     #管理モードへのリンクを設定
 
+#==================#
+# ■ 各種ログデータ#
+#==================#
 #■ 個別バックアップ
-$u_save_dir = "$LOG_DIR/users/"; #ユーザ個別バックアップディレクトリ
+$u_save_dir = "$LOG_DIR/backup/"; #ユーザ個別バックアップディレクトリ
 $u_save_file = "_back.log"; #IDに付加する文字列
 
 #■ ユーザファイル
 # データ覗き見防止のため $LOG_DIR/ 以下は必ず変更して下さい。
-$user_file = "$LOG_DIR/userdatfile.log" ;
-$back_file = "$LOG_DIR/userbackfile.log" ;
+$user_file = "$LOG_DIR/userdatfile.log" ;   #メイン記録ファイル
+$back_file = "$LOG_DIR/userbackfile.log" ;  #バックアップ
 
 #■ ログファイル
-$log_file = "$LOG_DIR/newsfile.log" ;
+$log_file  = "$LOG_DIR/newsfile.log" ;      #ニュース
+$joutolog_file = "$LOG_DIR/jouto.log" ;     #譲渡
 
+#■ 各種データ管理ファイル
+$member_file = "$LOG_DIR/memberfile.log" ;  #ユーザ数ファイル
+$area_file = "$LOG_DIR/areafile.log" ;      #禁止エリアファイル
+$item_file = "itemfile.log" ;               #取得アイテムファイル
+$time_file = "$LOG_DIR/timefile.log" ;      #時間管理ファイル
+$gun_log_file = "$LOG_DIR/gunlog.log" ;     #銃声ログファイル
+$end_flag_file = "$LOG_DIR/e_flag.log" ;    #終了フラグ
+
+#■ 管理用ログファイル
+$A_Rogin_file = "$ADM_DIR/admin.log" ;      #管理モードアクセス
+$error_file = "$ADM_DIR/error.log" ;        #エラー
+
+#==================#
+# ■ 各種ファイル  #
+#==================#
 #■ ロックファイル名
 $lockf = "./lock/battle.lock";
 
@@ -70,46 +92,27 @@ $lockf = "./lock/battle.lock";
 # symlink関数を使うようにします。
 $lkey = 2;
 
-#■ ユーザ数ファイル
-$member_file = "$LOG_DIR/memberfile.log" ;
-
-#■ 禁止エリアファイル
-$area_file = "$LOG_DIR/areafile.log" ;
-
-#■ 支給武器ファイル
-$wep_file = "$DAT_DIR/wepfile.dat" ;
-
-#■ 私物アイテムファイル
-$stitem_file = "$DAT_DIR/stitemfile.dat" ;
-
-#■ 取得アイテムファイル
-$item_file = "itemfile.log" ;
+#■ 初期化用設定ファイル
+$wep_file = "$DAT_DIR/wepfile.dat" ;        # 支給武器ファイル
+$stitem_file = "$DAT_DIR/stitemfile.dat" ;  # 私物アイテムファイル
+$haitem_file = "$DAT_DIR/itemfile.dat" ;    # 配布アイテムファイル
 
 #■ アイテム合成テーブルファイル
 $g_table = "$LIB_DIR/gousei_tbl.cgi" ;
 
-#■ 時間管理ファイル
-$time_file = "$LOG_DIR/timefile.log" ;
-
-#■ 銃声ログファイル
-$gun_log_file = "$LOG_DIR/gunlog.log" ;
-
-#■ 終了フラグ
-$end_flag_file = "$LOG_DIR/e_flag.log" ;
-
+#==================#
+# ■ 各種設定      #
+#==================#
 #■ クラス番号
-@clas = ("３年Ａ組","３年Ｂ組","３年Ｃ組","３年Ｄ組","３年Ｅ組","３年Ｆ組","３年Ｇ組","３年Ｈ組","３年Ｉ組","３年Ｊ組");
-$clmax = 5 ;    #クラス数
-
-$manmax=21;     #性別毎最大数
-
-$maxmem=$clmax*$manmax*2; #最大登録数
+@clas = ("３年Ａ組","３年Ｃ組","３年Ｄ組","３年Ｅ組","３年Ｆ組","３年Ｇ組","３年Ｈ組","３年Ｉ組","３年Ｊ組");
+$clmax  = 4 ;   #クラス数
+$manmax = 25;   #性別毎最大数
+$maxmem = $clmax * $manmax * 2; #最大登録数
 
 #■ 場所
 @place = (  "分校","北の岬","北村住宅街","北村役場","郵便局","消防署","観音堂","清水池","西村神社","ホテル跡",
             "山岳地帯","トンネル","西村住宅街","寺","廃校","南村神社","森林地帯","源二郎池","南村住宅街","診療所",
-            "灯台","南の岬"
-);
+            "灯台","南の岬");
 
 # SU=発見増 SD:発見減 DU:防御増 DD:防御減 AU:攻撃増 AD:攻撃減
 @arsts = (  "SU","DD","DU","SU","SD","SU","AU","SU","SD","AD",
@@ -151,34 +154,28 @@ $maxmem=$clmax*$manmax*2; #最大登録数
 $save_limit = 7;
 
 #■ レベルアップベース経験値
-$baseexp = 9;
+$baseexp = 3;
 
 #■熟練度ベース
 $BASE = 20 ;
 
-#■プログラム最低開催日数
-# イベント・罠などで最後の一人が決定しても、この日数以下ならゲームが続行します。
-# 0 にすると１日。
-$battle_limit = 3;
+#■ 各種制限設定
+$battle_limit = 1;  # プログラム最低開催日数
+$limit      = 3;    # プログラム受付日数
+$tactlim    = 5;    # 連闘制限日数
 
-#■ プログラム受付締切日数
-$limit = 3;
-
-#■ スタミナ最大数
-$maxsta = 300;
-
-#■ 応急処置コマンドの消費スタミナ
-$okyu_sta = 50;
-
-#■ 毒見コマンドの消費スタミナ
-$dokumi_sta = 30;
+#■ スタミナ
+$maxsta     = 300;      # 最大数
+$okyu_sta   = 50;       # 応急処置コマンドの消費スタミナ
+$dokumi_sta = 20;       # 毒見コマンドの消費スタミナ
+$group_sta  = 150;      # 所属変更コマンドの消費スタミナ
 
 #■ 回復量の設定
 $kaifuku_time = 60; # スタミナ回復時間(秒)：60秒で１ポイント回復
 $kaifuku_rate = 2;  # 体力回復レート：スタミナの２分の１(0としない事)
 
 #■ 時刻
-$ENV{'TZ'} = "JST-9";
+#$ENV{'TZ'} = "JST-9"; # 日本時間にセット
 $now=time;
 
 #------- セキュリティ関連設定 ---------
@@ -186,7 +183,7 @@ $now=time;
 #■ アクセス禁止ホスト
 @kick = ("TANATOS","TANATOS","TANATOS","TANATOS");
 #■ アクセス了承ホスト
-@oklist = ("TANATOS","TANATOS","TANATOS","TANATOS");
+@oklist = ('127.0.0.1');
 # アクセス禁止について
 # ホスト名が取得出来ない場合は排除しています。
 # 排除したくない場合は、アクセス了承ホストにIPアドレスを入れてください。
@@ -198,76 +195,91 @@ $now=time;
 $Met_Post = 1;
 
 #■ 他サイトから投稿排除時に指定
-$base_url = 0; #排除機能を使用する場合1を設定
+$base_url = 1; #排除機能を使用する場合1を設定
 
 #入力を受け付けるアドレスを設定(http://から書く)・複数設定可
-@base_list = ("dummy","dummy");
+@base_list = (
+"http://www.example,com/",
+);
 
+#■ 連続投稿制限
+$lim_sec =  3;     # 投稿制限期間 秒数で指定（０で制限無し）
 
-#------- セキュリティ関連設定・選択機能 ---------
+#■ メッセンジャー
+# メッセージログ保管ディレクトリ（最後は必ず / で閉じる）
+$MES_DIR = "$LOG_DIR/mes/";
+$mes_file = "mes.log";
+$mesmem_file = "mesmem.log";
+
+#------- 選択機能 ---------
+
+#==================#
+# ■ NPC           #
+#==================#
+# NPC設置有り無し (0=no 1=yes)
+# 設置する場合はbase.datにNPCデータを作成してして下さい。
+$npc_mode = 1;
+$npc_num = 47;     # NPCの人数。残り人数計算から省く。
+$npc_file = "$DAT_DIR/base.dat"; #NPC DATA FILE
+$BOSS = "担任";   # ボスキャラ名称(笑)
+$ZAKO = "兵士";   # 雑魚キャラ名称(^_^;)
+$ZAKO2 = "３年Ｂ組";   # 雑魚キャラ名称(^_^;)
+
+#==================#
+# ■ アイコン      #
+#==================#
+# アイコン画像のある「ディレクトリ」
+# → URLなら http:// から記述する
+# → 最後は必ず / で閉じる
+$imgurl = "../img/icon/";
+
+# 体力・スタミナゲージ用画像
+$bar_green = "bar_g.gif";
+$bar_red   = "bar_r.gif";
+
+# アイコンを定義（上下は必ずペアで。男子アイコンを先、女子アイコンを後にして下さい）
+# 男子生徒アイコン
+@m_icon_file   = ('m_01.jpg','m_02.jpg','m_03.jpg','m_04.jpg','m_05.jpg','m_06.jpg','m_07.jpg','m_08.jpg','m_09.jpg','m_10.jpg','m_11.jpg','m_12.jpg','m_13.jpg','m_14.jpg','m_15.jpg','m_16.jpg','m_17.jpg','m_18.jpg','m_19.jpg','m_20.jpg','m_21.jpg');
+@m_icon_name   = ('男子１番','男子２番','男子３番','男子４番','男子５番','男子６番','男子７番','男子８番','男子９番','男子１０番','男子１１番','男子１２番','男子１３番','男子１４番','男子１５番','男子１６番','男子１７番','男子１８番','男子１９番','男子２０番','男子２１番');
+# 女子生徒アイコン
+@f_icon_file   = ('f_01.jpg','f_02.jpg','f_03.jpg','f_04.jpg','f_05.jpg','f_06.jpg','f_07.jpg','f_08.jpg','f_09.jpg','f_10.jpg','f_11.jpg','f_12.jpg','f_13.jpg','f_14.jpg','f_15.jpg','f_16.jpg','f_17.jpg','f_18.jpg','f_19.jpg','f_20.jpg','f_21.jpg');
+@f_icon_name   = ('女子１番','女子２番','女子３番','女子４番','女子５番','女子６番','女子７番','女子８番','女子９番','女子１０番','女子１１番','女子１２番','女子１３番','女子１４番','女子１５番','女子１６番','女子１７番','女子１８番','女子１９番','女子２０番','女子２１番');
+# NPC用アイコン
+@n_icon_file = ('i_sakamochi.jpg','i_tahara.jpg','i_nomura.jpg','i_kondou.jpg','i_kato.jpg','i_hayashida.jpg');
+@n_icon_name = ('坂持金発','兵士田原','兵士野村','兵士近藤','兵士加藤','林田昌朗');
+
+# 専用アイコン
+$s_icon[0] = 'admin.jpg<>管理人専用<>admin';
+foreach (0 .. $#s_icon) { ($s_icon_file[$_],$s_icon_name[$_],$s_icon_pass[$_]) = split(/<>/, $s_icon[$_]); }
+
+# アイコン定義（囲みの中は変更しないでください）
+#-----------ここから-----------------
+@icon_file = (@m_icon_file,@f_icon_file,@s_icon_file);
+@icon_name = (@m_icon_name,@f_icon_name,@s_icon_name);
+$icon_check  = @m_icon_file;
+$icon_check2 = $icon_check  + @f_icon_file;
+$icon_check3 = $icon_check2 + @s_icon_file;
+#-----------ここまで-----------------
 
 #■ 同一ホストからの登録禁止((0=no 1=yes)
 # この機能を使用すると、ケーブルテレビ等の環境からの登録が出来なくなる場合が
 # ありますので、設定の際はご注意下さい。
-$IP_deny = 0;
+$IP_deny = 1;
 
 #■ ホスト名を使用(0=no 1=yes IPからホスト名の逆引きが出来ない場合、0にする)
 # 0にするとIPアドレスでの表示になります。
-$IP_host = 0;
+$IP_host = 1;
 
-#■ 同一ホストからの登録を許可するホストorIPアドレス
-#   省略するとアドレスやホスト名の範囲指定が出来ます。
-# 例１) hogehoge.ne.jp とすると *.hogehoge.ne.jp のホストが許可されます。
-# 例２) 192.168.0 とすると 192.168.0.* のアドレスが許可されます。
-# 注意：この設定を空にすると全てのホスト（アドレス）が許可対象になります。
-@IP_ok = ("dummy","dummy");
-
-#■ 進行状況にホスト情報を表示する(0=no 1=yes)
+#■ 進行状況にホスト情報を表示する(0=no 1=yes 2=OSも表示)
 # 1にすると新規登録時にIPアドレスが表示されるようになります。
-$host_view = 0;
+$host_view = 1;
 
+#■ 管理ユーティリティ
+# 自動初期化？（0=No 1=Yes）
+$auto_reset = 0;
 
-#------- 選択機能 ---------
+# 一時停止？（0=No 1=Yes）
+$d_ricovor = 0;
 
-# NPC設置有り無し (0=no 1=yes)
-# 設置する場合はbase.datにNPCデータを作成してして下さい。
-$npc_mode = 0;
-$npc_num = 0;     # NPCの人数。残り人数計算から省く。
-$npc_file = "$DAT_DIR/base.dat"; #NPC DATA FILE
-$BOSS = "担任";   # ボスキャラ名称(笑)
-$ZAKO = "兵士";   # 雑魚キャラ名称(^_^;)
-
-# アイコンモード (0=no 1=yes)
-$icon_mode = 0;
-
-# アイコン画像のある「ディレクトリ」
-# → URLなら http:// から記述する
-# → 最後は必ず / で閉じる
-$imgurl = "./img/";
-
-# アイコンを定義（上下は必ずペアで。男子アイコンを先、女子アイコンを後にして下さい）
-# 男子生徒アイコン
-@m_icon_file = ('dummy1.gif','dummy2.gif','dummy3.gif');
-@m_icon_name = ('dummy1','dummy2','dummy3');
-# 女子生徒アイコン
-@f_icon_file = ('dummy1.gif','dummy2.gif','dummy3.gif');
-@f_icon_name = ('dummy1','dummy2','dummy3');
-# NPC用アイコン
-@n_icon_file = ('dummy1.gif','dummy2.gif','dummy3.gif');
-@n_icon_name = ('dummy1','dummy2','dummy3');
-
-# アイコン定義（囲みの中は変更しないでください）
-#-----------ここから-----------------
-@icon_file = (@m_icon_file,@f_icon_file,@n_icon_file);
-@icon_name = (@m_icon_name,@f_icon_name,@n_icon_name);
-$icon_check = $#m_icon_file + 1;
-$icon_check2 = $icon_check + $#f_icon_file + 1;
-#-----------ここまで-----------------
-
-# アイコンの男女チェックをしたくない場合はコメントを外してください。
-#$icon_check = 0;
-# NPCアイコンのチェックをしたくない場合はコメントを外してください。
-#$icon_check2 = 0;
-
-#==========　設定ここまで ===============
+#========== 設定ここまで ===============
 1;

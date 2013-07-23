@@ -1,8 +1,9 @@
-#! /usr/local/bin/perl
+#!/usr/bin/perl
 require "jcode.pl";
 require "br.cgi";
 require "$LIB_DIR/lib.cgi";
 require "$LIB_DIR/lib2.cgi";
+require "$LIB_DIR/adlib.cgi";
 &LOCK;
 require "pref.cgi";
 
@@ -11,7 +12,15 @@ require "pref.cgi";
     if ($Met_Post && !$p_flag) {
         &ERROR("不正なアクセスです。");
     }
-    if ($admpass ne $a_pass){&MAIN;&UNLOCK;exit;};
+
+    if ($admpass ne $a_pass){
+        $rogindat = "$now,$year/$month/$mday $hour:$min:$sec,$admpass,$host,FAILED,\n";
+        open(DB,">>$A_Rogin_file"); seek(DB,0,0); print DB $rogindat; close(DB);
+        &MAIN;&UNLOCK;exit;
+    }
+
+    $rogindat = "$now,$year/$month/$mday $hour:$min:$sec,$admpass,$host,$Command,\n";
+    open(DB,">>$A_Rogin_file"); seek(DB,0,0); print DB $rogindat; close(DB);
 
     if ($Command eq "MAIN") {
         &MENU ;
@@ -19,12 +28,22 @@ require "pref.cgi";
         &BACKSAVE;
     } elsif ($Command eq "BREAD") {
         &BACKREAD;
+    } elsif ($Command eq "RESINI") {
+        &INITFORM;
+    } elsif ($Command eq "RESINI2") {
+        &RESINIT;
     } elsif ($Command eq "RESET") {
         &DATARESET;
+        push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n");
+        push(@log,"初期化しました。<br>\n");
+        push(@log,"<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"$adm\">ADMIN</a></b></FONT>\n");
+        &HEADER; print @log; &FOOTER;
     } elsif ($Command eq "USERLIST") {
         &USERLIST;
     } elsif ($Command eq "USERDEL") {
         &USERDEL;
+    } elsif ($Command eq "WINLOG") {
+        &WINLOG;
     } elsif ($Command eq "LOGON") {
         &MAIN;
     } else { &MAIN; }
@@ -54,7 +73,8 @@ sub MAIN {
 #==================#
 sub MENU {
 
-    push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n");
+    $nowtime = sprintf("%04d年%02d月%02d日（%s）%02d:%02d:%02d", $year, $month, $mday, ('日','月','火','水','木','金','土') [$wday], $hour, $min, $sec);
+    push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n$nowtime<BR>\n");
     push(@log,"<FORM METHOD=\"POST\">\n");
     push(@log,"<TABLE border=\"0\">\n");
     push(@log,"<TR><TD>\n");
@@ -62,6 +82,8 @@ sub MENU {
     push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"USERLIST\">ユーザ一覧<BR>\n");
     push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"BSAVE\">バックアップ保存<BR>\n");
     push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"BREAD\">バックアップ読込<BR>\n");
+    push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"WINLOG\">優勝履歴作成<BR>\n");
+    push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"RESINI\">初期化時間設定<BR>\n");
     push(@log,"<INPUT type=\"radio\" name=\"Command\" value=\"RESET\">データ初期化<BR>\n");
     push(@log,"</TD></TR>\n");
     push(@log,"</TABLE>\n");
@@ -77,7 +99,6 @@ sub MENU {
 #==================#
 sub BACKSAVE {
 
-    open(DB,"$user_file");seek(DB,0,0); @userlist=<DB>;close(DB);
     open(DB,">$back_file"); seek(DB,0,0); print DB @userlist; close(DB);
 
     push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n");
@@ -85,7 +106,7 @@ sub BACKSAVE {
 
     &HEADER ;
     print @log;
-    print "<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"admin.cgi\">ADMIN</a></b></FONT>\n";
+    print "<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"$adm\">ADMIN</a></b></FONT>\n";
     &FOOTER;
 
 }
@@ -99,159 +120,11 @@ sub BACKREAD {
 
     push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n");
     push(@log,"バックアップを読込ました。<br>\n");
-    push(@log,"<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"admin.cgi\">ADMIN</a></b></FONT>\n");
+    push(@log,"<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"$adm\">ADMIN</a></b></FONT>\n");
 
     &HEADER ;
     print @log;
     &FOOTER;
-}
-#==================#
-# ■ データ初期化    #
-#==================#
-sub DATARESET {
-
-    if($npc_mode eq "0"){
-        $userlist[0]="";
-        open(DB,">$user_file"); seek(DB,0,0); print DB @userlist; close(DB);
-    }else{
-        open(DB,"$npc_file");seek(DB,0,0); @baselist=<DB>;close(DB);
-        $LEN = @baselist;
-
-        if ($LEN > 0) {
-            for ($i=0; $i<$LEN; $i++) {
-                ($w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_com, $w_msg, $w_dmes) = split(/,/, $baselist[$i]);
-
-                if (($w_cl eq "$BOSS")||($w_cl eq "$ZAKO")){  #政府側のNPC
-                    $w_att = int(rand(10)) + 40 ;
-                    $w_def = int(rand(10)) + 40 ;
-                    $w_hit = int(rand(30)) + 80 ;
-                    $w_level = 10; $w_exp = int($w_level*$baseexp+(($w_level-1)*$baseexp)) - 17;
-                    $w_tactics = "なし"; $w_death = "" ;
-                    $w_pls = 0;
-                    $w_wn=$w_wp=$w_wa=$w_wg=$w_we=$w_wc=$w_wd=$w_wb=$w_wf=$w_ws= $BASE * 3;
-                    $w_mhit=$w_hit; $w_sta = $maxsta;
-                    $w_sts = "NPC0";
-                }else{  #その他のNPCはこっち
-                    $w_att = int(rand(5)) + 8 ;
-                    $w_def = int(rand(5)) + 8 ;
-                    $w_hit = int(rand(10)) + 40 ;
-                    $w_level = 1; $w_exp = 0;
-                    $w_tactics = "なし"; $w_death = "" ;
-                    $w_pls = int(rand($#area)+1) ;
-                    $w_wn=$w_wp=$w_wa=$w_wg=$w_we=$w_wc=$w_wd=$w_wb=$w_wf=$w_ws=0;
-                    $w_mhit=$w_hit; $w_sta = $maxsta;
-                    $w_sts = "NPC";
-                }
-                $w_kill = 0 ;
-                $w_id = ($a_id . "$i"); $w_password = $a_pass;
-                $w_tactics = "";
-                $w_club="";
-                $w_log = "" ; $w_bid = "" ; $w_inf="";
-
-                $userlist[$i] = "$w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf,\n" ;
-            }
-        }
-        open(DB,">$user_file"); seek(DB,0,0); print DB @userlist; close(DB);
-    }
-
-    #時間ファイル更新
-    $endtime = $now + ($battle_limit*60*60*24);
-    $timelist="$now,$endtime,\n" ;
-    open(DB,">$time_file"); seek(DB,0,0); print DB $timelist; close(DB);
-
-    #生徒番号ファイル更新
-    $memberlist="0,0,0,0,\n" ;
-    open(DB,">$member_file"); seek(DB,0,0); print DB $memberlist; close(DB);
-
-    #禁止エリアファイル更新
-    ($sec,$min,$hour,$mday,$month,$year,$wday,$yday,$isdst) = localtime($now+(1*60*60*24));
-    $year+=1900;
-    $min = "0$min" if ($min < 10);  $month++;
-    $areadata[0] = ($year . "," . $month . "," . $mday . "," . "0,0\n") ;   #エリア追加時刻
-    $areadata[1] = "1,0,\n" ; #禁止エリア数、ハッキングフラグ
-
-    @work = @place ;
-    @work2 = @area ;
-    @work3 = @arno ;
-
-    $ar = splice(@work,0,1) ;
-    $areadata[2] = "$ar," ;
-    $ar2 = splice(@work2,0,1) ;
-    $areadata[3] = "$ar2," ;
-    $ar3 = splice(@work3,0,1) ;
-    $areadata[4] = "$ar3," ;
-
-    for ($i=1; $i<$#place+1; $i++) {
-        $chk=$#work+1;$index = int(rand($chk));
-        $ar = splice(@work,$index,1) ;
-        $areadata[2] = ($areadata[2] . "$ar,");
-        $ar2 = splice(@work2,$index,1) ;
-        $areadata[3] = ($areadata[3] . "$ar2,");
-        $ar3 = splice(@work3,$index,1) ;
-        $areadata[4] = ($areadata[4] . "$ar3,");
-    }
-    $areadata[2] = ($areadata[2] . "\n");
-    $areadata[3] = ($areadata[3] . "\n");
-    $areadata[4] = ($areadata[4] . "\n");
-
-    open(DB,">$area_file"); seek(DB,0,0); print DB @areadata; close(DB);
-
-    #ログ更新
-    $loglist = "$now,,,,,,,,,,,NEWGAME,,\n" ;
-    open(DB,">$log_file"); seek(DB,0,0); print DB $loglist; close(DB);
-
-
-    for ($i=0; $i<$#area+1; $i++) {
-        @areaitem = "" ;
-        $filename = "$LOG_DIR/$i$item_file";
-        open(DB,">$filename"); seek(DB,0,0); print DB @areaitem; close(DB);
-    }
-
-    #アイテムファイル更新
-    open(DB,"$DAT_DIR/itemfile.dat");seek(DB,0,0); @itemlist=<DB>;close(DB);
-
-    for ($i=0; $i<$#itemlist+1; $i++) {
-        ($idx, $w_i,$w_e,$w_t) = split(/,/, $itemlist[$i]);
-
-        if ($idx == 99) { $idx = int(rand($#place)+1) ; }
-
-        $filename = "$LOG_DIR/$idx$item_file";
-        open(DB,"$filename");seek(DB,0,0); @areaitem=<DB>;close(DB);
-        push(@areaitem,"$w_i,$w_e,$w_t,\n") ;
-        open(DB,">$filename"); seek(DB,0,0); print DB @areaitem; close(DB);
-    }
-
-    #銃声ログファイル更新
-    local($null_data) = "0,,,,";
-    open(DB,">$gun_log_file");
-    for ($i=0; $i<6; $i++){
-        print DB "$null_data\n";
-    }
-    close(DB);
-
-    #ユーザ保存データ削除
-    opendir(DIR, "$u_save_dir");
-    foreach $file (readdir(DIR)) {
-        unless($file =~ /^\.{1,2}$/){
-            if($file =~ /$u_save_file/){
-                push (@f_list,"$u_save_dir$file");
-            }
-        }
-    }
-    closedir(DIR);
-    unlink(@f_list);
-
-    #FLAGファイル更新
-    open(FLAG,">$end_flag_file"); print FLAG ""; close(FLAG);
-
-    push(@log,"<B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">管理モード</FONT></B><BR><BR>\n");
-    push(@log,"初期化しました。<br>\n");
-    push(@log,"<br><B><FONT color=\"#ff0000\">>><a href=\"$home\">HOME</a> >><a href=\"admin.cgi\">ADMIN</a></b></FONT>\n");
-
-    &HEADER ;
-    print @log;
-    &FOOTER;
-
 }
 #==================#
 # ■ デコード処理  #
@@ -299,19 +172,30 @@ sub USERLIST {
     local($col_s1) = "<font color=white>" ;
     local($col_s2) = "<font color=red>" ;
     local($col_e) = "</font>" ;
-
-    open(DB,"$user_file");seek(DB,0,0); @userlist=<DB>;close(DB);
+    local($hostlist) = "," ;
 
     push(@log,"<P align=\"center\"><B><FONT color=\"#ff0000\" size=\"+3\" face=\"ＭＳ 明朝\">生存者一覧</FONT></B><BR></P>");
     push(@log,"<form action=\"admin.cgi\" method=\"POST\">\n");
     push(@log,"削除メッセージ：<INPUT size=\"64\" type=\"text\" name=\"Message\" maxlength=\"64\"><BR><BR>\n");
     push(@log,"<TABLE border=\"1\">\n");
-    push(@log,"<tr align=\"center\"><td>殺害</td><td width=\"100\">名前</td><td width=\"50\">ID</td><td width=\50\">PASS</td><td>状態</td><td>基本行動</td><td>場所</td></tr>\n");
+    push(@log,"<tr align=\"center\"><td nowrap>処刑</td><td nowrap>名前</td><td nowrap>ID&PASS</td><td nowrap>グループ</td><td nowrap>状態</td><td nowrap>ＰＣ情報</td></tr>\n");
     foreach (0 .. $#userlist) {
-        ($w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf) = split(/,/, $userlist[$_]);
+        ($w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf,$w_group,$w_gpass,$w_a_name,$w_feel,$w_host,$w_os) = split(/,/, $userlist[$_]);
 
-        if ($w_hit <= 0) { $col_s = $col_s2; $w_sts = "死亡";} else { $col_s = $col_s1;}
-        push(@log,"<tr><td><input type=checkbox name=Del value=\"$_\"></td><td align=\"center\">$col_s$w_f_name $w_l_name$col_e</td><td>$col_s$w_id$col_e</td><td>$col_s$w_password$col_e</td><td>$col_s$w_sts$col_e</td><td>$col_s$w_tactics$col_e</td><td>$col_s$place[$w_pls]$col_e</td></tr>\n");
+        if ($w_hit <= 0) {
+            $col_s = $col_s2; $w_sts = "死亡";
+        } else {
+            $col_s = $col_s1;
+            if ($w_host ne "") {
+                if ($hostlist =~ /,$w_host,/) {
+                    $col_s = "<font color=yellow>";
+                } else {
+                    $hostlist = ($hostlist . $w_host . ",");
+                }
+            }
+        }
+
+        push(@log,"<tr><td><input type=checkbox name=Del value=\"$_\"></td><td align=\"center\" nowrap>$col_s$w_f_name $w_l_name$col_e</td><td nowrap>$col_s$w_id<BR>$w_password$col_e</td><td nowrap>$col_s$w_group<BR>$w_gpass$col_e</td><td nowrap>$col_s$w_sts($w_tactics)<BR>$place[$w_pls]$col_e</td><td>$col_s$w_host<BR>$w_os$col_e</td></tr>\n");
 
     }
     push(@log,"</table><BR>\n");
@@ -333,11 +217,11 @@ sub USERDEL {
     open(DB,"$user_file");seek(DB,0,0); @userlist=<DB>;close(DB);
 
     foreach (0 .. $#DEL) {
-        ($w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf) = split(/,/, $userlist[$DEL[$_]]);
+        ($w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf,$w_group,$w_gpass,$w_a_name,$w_feel,$w_host,$w_os) = split(/,/, $userlist[$DEL[$_]]);
         $w_msg = $Message;
         &LOGSAVE("DEATH4") ;
         $w_hit = 0 ; $w_sts = "死亡"; $w_death=$deth;
-        $userlist[$DEL[$_]] = "$w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf,\n" ;
+        $userlist[$DEL[$_]] = "$w_id,$w_password,$w_f_name,$w_l_name,$w_sex,$w_cl,$w_no,$w_endtime,$w_att,$w_def,$w_hit,$w_mhit,$w_level,$w_exp,$w_sta,$w_wep,$w_watt,$w_wtai,$w_bou,$w_bdef,$w_btai,$w_bou_h,$w_bdef_h,$w_btai_h,$w_bou_f,$w_bdef_f,$w_btai_f,$w_bou_a,$w_bdef_a,$w_btai_a,$w_tactics,$w_death,$w_msg,$w_sts,$w_pls,$w_kill,$w_icon,$w_item[0],$w_eff[0],$w_itai[0],$w_item[1],$w_eff[1],$w_itai[1],$w_item[2],$w_eff[2],$w_itai[2],$w_item[3],$w_eff[3],$w_itai[3],$w_item[4],$w_eff[4],$w_itai[4],$w_item[5],$w_eff[5],$w_itai[5],$w_log,$w_dmes,$w_bid,$w_club,$w_wn,$w_wp,$w_wa,$w_wg,$w_we,$w_wc,$w_wd,$w_wb,$w_wf,$w_ws,$w_com,$w_inf,$w_group,$w_gpass,$w_a_name,$w_feel,$w_host,$w_os,\n" ;
     }
 
     open(DB,">$user_file"); seek(DB,0,0); print DB @userlist; close(DB);
@@ -345,5 +229,5 @@ sub USERDEL {
 
     &USERLIST;
 
-
 }
+1
